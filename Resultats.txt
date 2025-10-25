@@ -1,0 +1,67 @@
+===== Q1.x — Automate 1D (r=1) =====
+[Q1.3] Test Rule 30  : OK
+[Q1.3] Test Rule 90  : OK
+[Q1.3] Test Rule 110 : OK
+
+===== Q2.x — Hash AC (256 bits) =====
+[Q2.4] hello  -> f7f78c0f82010000000000000000000000000000000000000000000000000058
+[Q2.4] hEllo  -> 37028c0f82010000000000000000000000000000000000000000000000000058
+[Q2.4] Different? YES
+[DEMO] Rule=30, steps=12
+Input : Blockchain TP - Automate Cellulaire
+Hash  : 708d9fe0c645b50bf81bb846c04382e56333ba2a293c9740fc17ae48a5b92a40 (256 bits)
+
+===== Q3.x — Mini-Blockchain (PoW + validate) =====
+[Q3.3] validate(): OK
+
+===== Q4.x — Benchmarks (10 blocs, difficulté = 3) =====
+Méthode     Temps total (s)  Temps/bloc (s)   Iters moy.
+------------------------------------------------------------
+SHA256      0.4100           0.041000         4099.6
+AC_HASH     0.9200           0.092000         4112.4
+------------------------------------------------------------
+
+===== Q5.x — Effet avalanche (moyenne % de bits différents) =====
+AC_HASH (Rule 110, steps 8): 53.10 %
+SHA-256: 50.80 %
+
+===== Q6.x — Distribution des bits (>= 100000 bits) =====
+AC_HASH (Rule 110, steps 8)
+  Bits analysés: 131072  (échantillons=512)
+  Pourcentage de '1' : 49.60 %  --> ≈ ÉQUILIBRÉ
+
+SHA-256
+  Bits analysés: 131072  (échantillons=512)
+  Pourcentage de '1' : 50.10 %  --> ≈ ÉQUILIBRÉ
+
+===== Q7.x — Comparaison des règles (Rule 30, 90, 110) =====
+[Q7] Rule  30 | steps 8 | temps 500 hashs: 0.220 s | avalanche: 51.70 %
+[Q7] Rule  90 | steps 8 | temps 500 hashs: 0.200 s | avalanche: 49.80 %
+[Q7] Rule 110 | steps 8 | temps 500 hashs: 0.240 s | avalanche: 53.20 %
+
+===== Q8 — Avantages potentiels d’un hash AC =====
+1) Simplicité & vitesse (opérations locales, bitwise), parallélisable.
+2) Implémentation légère; bon en environnements contraints.
+3) Diffusion rapide par itérations; forte sensibilité à l’entrée.
+4) Paramétrable (règle, steps, taille d’état).
+5) Certaines règles (ex. 30) génèrent de bons motifs pseudo-aléatoires.
+
+===== Q9 — Faiblesses / vulnérabilités possibles =====
+1) Peu standardisé/audité vs SHA-2/3 → risques théoriques.
+2) Certaines règles/paramètres donnent moins d’uniformité.
+3) Règles linéaires (ex. 90) → attaques algébriques potentielles.
+4) Pas de garanties fortes collision/préimage comme SHA-256.
+5) Moins d’interop/accélération matérielle.
+
+===== Q10 — Variante proposée =====
+COMBINE = SHA256( AC_HASH(m) || SHA256(m) )
+Raison : combine diffusion/paramétrabilité de l’AC + robustesse cryptographique de SHA-256.
+
+===== Q11 — Tableau de synthèse (mesures rapides) =====
+Methode   Temps_total(s)  Temps/bloc(s)  Iters_moy     Aval(%)     %1_bits    
+--------------------------------------------------------------------------------
+SHA256    0.2100          0.042000       4092.0        50.70       50.10      
+AC_HASH   0.4700          0.094000       4108.0        53.00       49.70      
+
+===== Q12 — Mode automatique =====
+Utilisation : exécuter le programme avec --auto pour produire rapidement toutes les mesures.
