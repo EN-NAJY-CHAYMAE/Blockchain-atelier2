@@ -1,0 +1,9 @@
+﻿*.exe
+*.out
+*.o
+*.obj
+*.pdb
+*.ilk
+/build/
+.vscode/
+.idea/
